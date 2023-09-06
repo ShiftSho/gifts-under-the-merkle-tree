@@ -1,17 +1,14 @@
-const axios = require('axios');
-const niceList = require('../utils/niceList.json');
-const MerkleTree = require('../utils/MerkleTree');
+const serverUrl = "http://localhost:1225/gift";
 
-const serverUrl = 'http://localhost:1225';
+async function checkName() {
+  const name = document.getElementById("nameInput").value;
 
-async function main() {
-  // TODO: how do we prove to the server we're on the nice list? 
-
-  const { data: gift } = await axios.post(`${serverUrl}/gift`, {
-    // TODO: add request body parameters here!
-  });
-
-  console.log({ gift });
+  try {
+    const response = await axios.post(serverUrl, { name });
+    document.getElementById("result").innerText = response.data;
+  } catch (error) {
+    console.error("Error checking name:", error);
+    document.getElementById("result").innerText =
+      "Error checking the list. Please try again.";
+  }
 }
-
-main();
